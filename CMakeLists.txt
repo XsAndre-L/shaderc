@@ -127,6 +127,27 @@ if(MSVC)
   endif()
 endif(MSVC)
 
+# -----------------------------------------------------
+# ADD DEPENDENCY SYNC HERE
+# -----------------------------------------------------
+
+# Run the git-sync-deps script immediately during configuration to ensure
+# all third-party directories are populated before add_subdirectory is called.
+message(STATUS "Running git-sync-deps script to fetch external dependencies...")
+execute_process(
+    COMMAND ${Python_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/utils/git-sync-deps"
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    RESULT_VARIABLE SYNC_RESULT
+    OUTPUT_VARIABLE SYNC_OUTPUT
+    ERROR_VARIABLE SYNC_ERROR
+)
+
+if(NOT SYNC_RESULT EQUAL 0)
+    message(FATAL_ERROR "Dependency sync failed (utils/git-sync-deps): ${SYNC_ERROR}")
+endif()
+message(STATUS "Dependency sync complete.")
+
+# -----------------------------------------------------
 
 # Configure subdirectories.
 # We depend on these for later projects, so they should come first.
