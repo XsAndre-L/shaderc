@@ -1,0 +1,10 @@
+{
+  "dependencyConfig": {
+    "name": "shaderc",
+    "libPath": "external/shaderc",
+    "linkType": "static",
+    "libs": ["shaderc"],
+    "version": "16.0.0"
+  },
+  "libraryOptions": {}
+}
